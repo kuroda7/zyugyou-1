@@ -27,6 +27,10 @@ void Start()
     targetRect = Rect(280, -140, 40, 40);
     bulletPos.x = -999;
     score = 0;
+    
+    // BGMを再生（実装：小西敦也）
+    PlayBGM("bgm_maoudamashii_8bit07.mp3");
+
 }
 
 // 1/60秒ごとに呼ばれる関数です。モデルの更新と画面の描画を行います。
@@ -35,17 +39,24 @@ void Update()
     // 弾の発射
     if (bulletPos.x <= -999 && Input::GetKeyDown(KeyMask::Space)) {
         bulletPos = cannonPos + Vector2(50, 10);
+        
+        // 発射時SEを再生（実装：小西敦也）
+        PlaySound("se_maoudamashii_explosion06.mp3");
+
     }
 
     // 弾の移動
     if (bulletPos.x > -999) {
-        bulletPos.x += 10 * Time::deltaTime;
+        bulletPos.x += 100 * Time::deltaTime; // HW16A071 黒田達範
 
         // ターゲットと弾の当たり判定
         Rect bulletRect(bulletPos, Vector2(32, 20));
         if (targetRect.Overlaps(bulletRect)) {
             score += 1;         // スコアの加算
             bulletPos.x = -999; // 弾を発射可能な状態に戻す
+        }
+        if(bulletPos.x > 360){
+            bulletPos.x = -999; // HW16A071 黒田達範
         }
     }
 
@@ -55,6 +66,12 @@ void Update()
 
     // 雲の描画
     DrawImage("cloud1.png", cloudPos);
+    
+    //雲の移動（実装、HW16A033 大和田 滉恵）
+    cloudPos.x += 50 * Time::deltaTime;
+    if (cloudPos.x > 310){
+        cloudPos.x = -600;
+    }
 
     // 弾の描画
     if (bulletPos.x > -999) {
@@ -70,7 +87,7 @@ void Update()
 
     // スコアの描画
     SetFont("nicoca_v1.ttf", 20.0f);
-    DrawText(FormatString("%02d", score), Vector2(-319, 199), Color::black);
-    DrawText(FormatString("%02d", score), Vector2(-320, 200), Color::white);
+    DrawText(FormatString("%05d", score), Vector2(-319, 199), Color::black); //hw16a071 黒田達範
+    DrawText(FormatString("%05d", score), Vector2(-320, 200), Color::white);
 }
 
