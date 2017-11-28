@@ -88,6 +88,6 @@ void Update()
     // スコアの描画(実装　HW16A028 大岩竜也)
     SetFont("nicoca_v1.ttf", 80.0f);
     DrawText(FormatString("%05d", score), Vector2(-319, 179), Color::black); //hw16a071 黒田達範
-    DrawText(FormatString("%05d", score), Vector2(-320, 180), Color::white);
+    DrawText(FormatString("%05d", score), Vector2(-320, 180), Color::white);　//hw16a071 黒田達範
 }
 
